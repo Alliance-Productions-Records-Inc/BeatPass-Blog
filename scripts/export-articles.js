@@ -2,11 +2,11 @@
 
 /**
  * Ghost Article Export Script
- * Fetches all published/scheduled non-video articles from Ghost CMS
+ * Fetches scheduled non-video articles (published only with --include-published) from Ghost CMS
  * and exports them as markdown files to content/offline-articles/ in the
  * same format used by deploy-content.js.
  *
- * Usage: node scripts/export-articles.js
+ * Usage: node scripts/export-articles.js [--include-published]
  */
 
 const jwt = require('jsonwebtoken');
@@ -198,7 +198,7 @@ function slugToFilename(slug) {
 async function main() {
   console.log('╔══════════════════════════════════════════════════╗');
   console.log('║  Ghost Article Export — blog.beatpass.ca          ║');
-  console.log('║  Exporting published/scheduled non-video articles ║');
+  console.log('║  Exporting non-video articles                      ║');
   console.log('╚══════════════════════════════════════════════════╝\n');
 
   if (!fs.existsSync(DRAFTS_DIR)) {
@@ -216,8 +216,10 @@ async function main() {
   console.log(`  Found ${existingSlugs.size} existing article slugs in offline-articles/\n`);
 
   // Fetch all published + scheduled posts
-  const published = await api('GET', 'posts/?limit=all&status=published&include=tags&formats=mobiledoc,html');
-  const scheduled = await api('GET', 'posts/?limit=all&status=scheduled&include=tags&formats=mobiledoc,html');
+  const published = process.argv.includes('--include-published')
+    ? await api('GET', 'posts/?limit=all&filter=status:published&include=tags&formats=mobiledoc,html')
+    : null;
+  const scheduled = await api('GET', 'posts/?limit=all&filter=status:scheduled&include=tags&formats=mobiledoc,html');
 
   const allPosts = [
     ...(published?.posts || []),

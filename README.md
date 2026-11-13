@@ -53,3 +53,25 @@ No part of this repository may be copied, modified, distributed, or reused in an
 
 Alliance Productions Records Inc.
 Email: contact.alliancewav@gmail.com
+
+## Runtime cleanup
+
+Run `node scripts/cleanup-runtime.js` to preview cleanup, then add `--apply` to
+remove verified published copies from `content/offline-articles/`, rotated Ghost
+logs older than 30 days, and video temporary files older than seven days. Ghost
+must be reachable; an inventory failure aborts cleanup. Drafts, scheduled posts,
+editorial source manifests, uploads, and YouTube deduplication state are retained.
+
+Article export defaults to scheduled posts. Use `--include-published` only when
+an explicit offline export of published articles is needed.
+
+## Public repository boundaries
+
+Keep CMS content, unpublished editorial sources, planning reports, local agent
+settings, database exports, and credential files out of Git. These are ignored;
+production configuration and `.env` remain local because the running site needs
+them. `.env.example` contains placeholders only.
+
+Before publishing changes, review `git diff --cached` and `git status --short`.
+Ignore rules do not remove material from earlier commits. If a credential is
+exposed, revoke or rotate it and arrange a separate history cleanup.

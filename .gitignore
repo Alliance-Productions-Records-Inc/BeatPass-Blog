@@ -62,3 +62,42 @@ Thumbs.db
 
 # ── SSL / ACME ───────────────────────────────────────────────────────────────
 .well-known/
+
+# Supervisor runtime coordination (must remain on disk while running)
+scripts/ghost-supervisor.lock
+scripts/ghost-supervisor.stop
+__pycache__/
+*.pyc
+
+# Local CMS content and unpublished editorial material (never public source)
+/content/
+/BeatPass_Editorial_Plan_*.xlsx
+/BeatPass_SEO_Editorial_Report_*.html
+/EDITORIAL_*.md
+
+# Historical editorial jobs contain internal copy and commissioning details
+/scripts/*-20??-??-??.js
+/scripts/reconcile-editorial-workbook-*.py
+/scripts/build-editorial-audio-*.py
+
+# Local agent configuration and cloud credentials
+/.claude/
+/.codex/
+/.agents/
+/.aws/
+
+# Credential files and database/backup exports
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.sql
+*.sql.gz
+*.sqlite
+*.sqlite3
+*.db
+*.bak
+*.backup
+*.dump
+/config.*.json

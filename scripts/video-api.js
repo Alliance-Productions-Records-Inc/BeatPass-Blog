@@ -599,7 +599,8 @@ function cleanup() {
     const files = fs.readdirSync(CACHE_DIR)
       .map(f => {
         try {
-          return { name: f, mtime: fs.statSync(path.join(CACHE_DIR, f)).mtimeMs, size: fs.statSync(path.join(CACHE_DIR, f)).size };
+          const stat = fs.statSync(path.join(CACHE_DIR, f));
+          return stat.isFile() ? { name: f, mtime: stat.mtimeMs, size: stat.size } : null;
         } catch { return null; }
       })
       .filter(Boolean)
@@ -614,8 +615,9 @@ function cleanup() {
     }
 
     // Also log total cache size
-    const totalMB = files.reduce((sum, f) => sum + f.size, 0) / 1024 / 1024;
-    if (totalMB > 100) log(`  Cache size: ${totalMB.toFixed(0)} MB (${files.length} files)`);
+    const retained = files.slice(0, MAX_CACHED_RAW);
+    const totalMB = retained.reduce((sum, f) => sum + f.size, 0) / 1024 / 1024;
+    if (totalMB > 100) log(`  Cache size: ${totalMB.toFixed(0)} MB (${retained.length} files)`);
   } catch {}
 
   // Purge old jobs from memory (skip jobs still rendering — they have their own lifecycle)

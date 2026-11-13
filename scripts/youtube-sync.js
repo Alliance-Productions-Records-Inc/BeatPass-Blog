@@ -334,7 +334,8 @@ function buildNaturalTitle(trackName, producer, ytTitle) {
   }
 
   if (genre) {
-    return `${trackName} — ${genre} Beat by ${producer}`;
+    const descriptor = /\bbeat$/i.test(genre) ? genre : `${genre} Beat`;
+    return `${trackName} — ${descriptor} by ${producer}`;
   }
   return `${trackName} — Beat by ${producer}`;
 }
