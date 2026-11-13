@@ -101,3 +101,24 @@ __pycache__/
 *.backup
 *.dump
 /config.*.json
+
+# Version only the blog's theme integration; keep CMS content and vendor assets private.
+!/content/
+/content/*
+!/content/themes/
+/content/themes/*
+!/content/themes/aspect/
+/content/themes/aspect/*
+!/content/themes/aspect/default.hbs
+!/content/themes/aspect/default-simple.hbs
+!/content/themes/aspect/assets/
+/content/themes/aspect/assets/*
+!/content/themes/aspect/assets/beatpass-consent.js
+!/content/themes/aspect/assets/beatpass-consent.css
+!/content/themes/aspect/partials/
+/content/themes/aspect/partials/*
+!/content/themes/aspect/partials/beatpass-consent-head.hbs
+!/content/themes/aspect/partials/beatpass-consent-notice.hbs
+!/content/themes/aspect/partials/layout/
+/content/themes/aspect/partials/layout/*
+!/content/themes/aspect/partials/layout/footer-copyright.hbs
